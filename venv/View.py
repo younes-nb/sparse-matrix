@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QLineEdit, QFormLayout, QDialog, \
-    QTabWidget, QSpinBox,QTableWidget,QTableWidgetItem
+    QTabWidget, QSpinBox, QTableWidget, QTableWidgetItem
 from PyQt6.QtCore import Qt
 
 
@@ -28,19 +28,20 @@ class View(QWidget):
 class FirstMatrixTab(QWidget):
     def __init__(self):
         super().__init__()
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
 
         dimensionsBox = QHBoxLayout()
-        layout.addLayout(dimensionsBox)
+        self.layout.addLayout(dimensionsBox)
 
         matrixDimensionsLabel = QLabel("Matrix Dimensios : ")
         matrixDimensionsLabel.setStyleSheet("font-size: 16px;")
 
-        self.matrixWidth = QSpinBox()
-        self.matrixWidth.setMinimum(1)
-        self.matrixWidth.setMaximum(100)
-        self.matrixWidth.setStyleSheet("""  
+        self.matrixRow = QSpinBox()
+        self.matrixRow.setToolTip("Row")
+        self.matrixRow.setMinimum(1)
+        self.matrixRow.setMaximum(1000)
+        self.matrixRow.setStyleSheet("""  
             font-size: 14px; 
             padding: 3px;
         """)
@@ -48,10 +49,11 @@ class FirstMatrixTab(QWidget):
         xLabel = QLabel("\u00d7")
         xLabel.setStyleSheet("font-size: 25px;")
 
-        self.matrixHeight = QSpinBox()
-        self.matrixHeight.setMinimum(1)
-        self.matrixHeight.setMaximum(100)
-        self.matrixHeight.setStyleSheet("""  
+        self.matrixColumn = QSpinBox()
+        self.matrixColumn.setToolTip("Column")
+        self.matrixColumn.setMinimum(1)
+        self.matrixColumn.setMaximum(1000)
+        self.matrixColumn.setStyleSheet("""  
             font-size: 14px; 
             padding: 3px;
         """)
@@ -65,36 +67,44 @@ class FirstMatrixTab(QWidget):
         """)
 
         dimensionsBox.addWidget(matrixDimensionsLabel)
-        dimensionsBox.addWidget(self.matrixWidth)
+        dimensionsBox.addWidget(self.matrixRow)
         dimensionsBox.addWidget(xLabel)
-        dimensionsBox.addWidget(self.matrixHeight)
+        dimensionsBox.addWidget(self.matrixColumn)
         dimensionsBox.addWidget(self.showButton)
         dimensionsBox.addStretch(1)
         dimensionsBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        self.matrix = self.addTable(10,10)
-        layout.addWidget(self.matrix)
+        self.matrix = QTableWidget()
+        self.layout.addWidget(self.matrix)
 
-    def addTable(self,x,y):
-        pass
+    def creatTable(self, row, column, matrix):
+        matrix.setRowCount(row)
+        matrix.setColumnCount(column)
+        matrix.setStyleSheet("font-size: 14px;")
+        for i in range(row):
+            for j in range(column):
+                matrix.setColumnWidth(j, 25)
+                matrix.setItem(i, j, QTableWidgetItem('0'))
+        return matrix
 
 
 class SecondMatrixTab(QWidget):
     def __init__(self):
         super().__init__()
-        layout = QVBoxLayout()
-        self.setLayout(layout)
+        self.layout = QVBoxLayout()
+        self.setLayout(self.layout)
 
         dimensionsBox = QHBoxLayout()
-        layout.addLayout(dimensionsBox)
+        self.layout.addLayout(dimensionsBox)
 
         matrixDimensionsLabel = QLabel("Matrix Dimensios : ")
         matrixDimensionsLabel.setStyleSheet("font-size: 16px;")
 
-        self.matrixWidth = QSpinBox()
-        self.matrixWidth.setMinimum(1)
-        self.matrixWidth.setMaximum(100)
-        self.matrixWidth.setStyleSheet("""  
+        self.matrixRow = QSpinBox()
+        self.matrixRow.setToolTip("Row")
+        self.matrixRow.setMinimum(1)
+        self.matrixRow.setMaximum(1000)
+        self.matrixRow.setStyleSheet("""  
             font-size: 14px; 
             padding: 3px;
         """)
@@ -102,10 +112,11 @@ class SecondMatrixTab(QWidget):
         xLabel = QLabel("\u00d7")
         xLabel.setStyleSheet("font-size: 25px;")
 
-        self.matrixHeight = QSpinBox()
-        self.matrixHeight.setMinimum(1)
-        self.matrixHeight.setMaximum(100)
-        self.matrixHeight.setStyleSheet("""  
+        self.matrixColumn = QSpinBox()
+        self.matrixColumn.setToolTip("Column")
+        self.matrixColumn.setMinimum(1)
+        self.matrixColumn.setMaximum(1000)
+        self.matrixColumn.setStyleSheet("""  
             font-size: 14px; 
             padding: 3px;
         """)
@@ -119,17 +130,25 @@ class SecondMatrixTab(QWidget):
         """)
 
         dimensionsBox.addWidget(matrixDimensionsLabel)
-        dimensionsBox.addWidget(self.matrixWidth)
+        dimensionsBox.addWidget(self.matrixRow)
         dimensionsBox.addWidget(xLabel)
-        dimensionsBox.addWidget(self.matrixHeight)
+        dimensionsBox.addWidget(self.matrixColumn)
         dimensionsBox.addWidget(self.showButton)
         dimensionsBox.addStretch(1)
         dimensionsBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        self.matrix = self.addTable(10, 10)
+        self.matrix = QTableWidget()
+        self.layout.addWidget(self.matrix)
 
-    def addTable(self,x,y):
-        pass
+    def creatTable(self, row, column, matrix):
+        matrix.setRowCount(row)
+        matrix.setColumnCount(column)
+        matrix.setStyleSheet("font-size: 14px;")
+        for i in range(row):
+            for j in range(column):
+                matrix.setColumnWidth(j, 25)
+                matrix.setItem(i, j, QTableWidgetItem('0'))
+        return matrix
 
 
 class ResultMatrixTab(QWidget):
