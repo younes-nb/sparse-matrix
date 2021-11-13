@@ -41,7 +41,8 @@ class Model:
                     result.append(secondMatrix[j])
                     j += 1
                 else:
-                    result.append((firstMatrix[i][0], firstMatrix[i][1], firstMatrix[i][2] + secondMatrix[j][2]))
+                    if firstMatrix[i][2] + secondMatrix[j][2] != 0:
+                        result.append((firstMatrix[i][0], firstMatrix[i][1], firstMatrix[i][2] + secondMatrix[j][2]))
                     i += 1
                     j += 1
 
@@ -55,4 +56,35 @@ class Model:
 
         return result
 
+    def subtract(self, firstMatrix=list, secondMatrix=list):
+        result = []
+        i, j = 0, 0
+        while (i < firstMatrix.__len__() and j < secondMatrix.__len__()):
+            if firstMatrix[i][0] < secondMatrix[j][0]:
+                result.append(firstMatrix[i])
+                i += 1
+            elif firstMatrix[i][0] > secondMatrix[j][0]:
+                result.append((secondMatrix[j][0], secondMatrix[j][1], secondMatrix[j][2] * -1))
+                j += 1
+            else:
+                if firstMatrix[i][1] < secondMatrix[j][1]:
+                    result.append(firstMatrix[i])
+                    i += 1
+                elif firstMatrix[i][1] > secondMatrix[j][1]:
+                    result.append((secondMatrix[j][0], secondMatrix[j][1], secondMatrix[j][2] * -1))
+                    j += 1
+                else:
+                    if firstMatrix[i][2] - secondMatrix[j][2] != 0:
+                        result.append((firstMatrix[i][0], firstMatrix[i][1], firstMatrix[i][2] - secondMatrix[j][2]))
+                    i += 1
+                    j += 1
 
+        while (i < firstMatrix.__len__()):
+            result.append(firstMatrix[i])
+            i += 1
+
+        while (j < secondMatrix.__len__()):
+            result.append((secondMatrix[j][0], secondMatrix[j][1], secondMatrix[j][2] * -1))
+            j += 1
+
+        return result

@@ -15,6 +15,7 @@ class Controller:
         self.view.firstMatrixTab.transposeButton.clicked.connect(self.initFirstTransposeButton)
         self.view.secondMatrixTab.transposeButton.clicked.connect(self.initSecondTransposeButton)
         self.view.resultMatrixTab.sumButton.clicked.connect(self.initSumButton)
+        self.view.resultMatrixTab.subButton.clicked.connect(self.initSubButton)
 
     def initFirstShowButton(self):
         self.view.firstMatrixTab.errorLabel.hide()
@@ -82,7 +83,19 @@ class Controller:
             self.view.resultMatrixTab.errorLabel.show()
 
     def initSubButton(self):
-        pass
+        try:
+            self.view.resultMatrixTab.errorLabel.hide()
+            if self.view.firstMatrixTab.matrix.rowCount() != self.view.secondMatrixTab.matrix.rowCount() or self.view.firstMatrixTab.matrix.columnCount() != self.view.secondMatrixTab.matrix.columnCount():
+                raise Exception
+
+            subtract = self.model.subtract(self.convertToSparse(self.view.firstMatrixTab.matrix),
+                                           self.convertToSparse(self.view.secondMatrixTab.matrix))
+
+            self.view.resultMatrixTab.creatTable(self.view.firstMatrixTab.matrix.rowCount(),
+                                                 self.view.firstMatrixTab.matrix.columnCount(),
+                                                 self.view.resultMatrixTab.matrix, subtract)
+        except:
+            self.view.resultMatrixTab.errorLabel.show()
 
     def initMulButton(self):
         pass
