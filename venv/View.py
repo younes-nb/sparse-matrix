@@ -75,12 +75,21 @@ class FirstMatrixTab(QWidget):
             margin-left: 15px;
         """)
 
+        self.errorLabel = QLabel("Something went wrong!")
+        self.errorLabel.hide()
+        self.errorLabel.setStyleSheet("""  
+            font-size: 14px;  
+            color: red;
+            margin-left: 30px;
+        """)
+
         upperBox.addWidget(matrixDimensionsLabel)
         upperBox.addWidget(self.matrixRow)
         upperBox.addWidget(xLabel)
         upperBox.addWidget(self.matrixColumn)
         upperBox.addWidget(self.showButton)
         upperBox.addWidget(self.transposeButton)
+        upperBox.addWidget(self.errorLabel)
         upperBox.addStretch(1)
         upperBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
@@ -156,12 +165,21 @@ class SecondMatrixTab(QWidget):
             margin-left: 15px;
         """)
 
+        self.errorLabel = QLabel("Something went wrong!")
+        self.errorLabel.hide()
+        self.errorLabel.setStyleSheet("""  
+            font-size: 14px;  
+            color: red;
+            margin-left: 30px;
+        """)
+
         upperBox.addWidget(matrixDimensionsLabel)
         upperBox.addWidget(self.matrixRow)
         upperBox.addWidget(xLabel)
         upperBox.addWidget(self.matrixColumn)
         upperBox.addWidget(self.showButton)
         upperBox.addWidget(self.transposeButton)
+        upperBox.addWidget(self.errorLabel)
         upperBox.addStretch(1)
         upperBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
@@ -219,9 +237,18 @@ class ResultMatrixTab(QWidget):
             margin-left: 15px;
         """)
 
+        self.errorLabel = QLabel("Something went wrong!")
+        self.errorLabel.hide()
+        self.errorLabel.setStyleSheet("""  
+            font-size: 14px;  
+            color: red;
+            margin-left: 30px;
+        """)
+
         upperBox.addWidget(self.sumButton)
         upperBox.addWidget(self.subButton)
         upperBox.addWidget(self.mulButton)
+        upperBox.addWidget(self.errorLabel)
         upperBox.addStretch(1)
         upperBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 

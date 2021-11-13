@@ -23,10 +23,36 @@ class Model:
                 startOfRow[A[i][1]] += 1
             return B
 
+    def sum(self, firstMatrix=list, secondMatrix=list):
+        result = []
+        i, j = 0, 0
+        while (i < firstMatrix.__len__() and j < secondMatrix.__len__()):
+            if firstMatrix[i][0] < secondMatrix[j][0]:
+                result.append(firstMatrix[i])
+                i += 1
+            elif firstMatrix[i][0] > secondMatrix[j][0]:
+                result.append(secondMatrix[j])
+                j += 1
+            else:
+                if firstMatrix[i][1] < secondMatrix[j][1]:
+                    result.append(firstMatrix[i])
+                    i += 1
+                elif firstMatrix[i][1] > secondMatrix[j][1]:
+                    result.append(secondMatrix[j])
+                    j += 1
+                else:
+                    result.append((firstMatrix[i][0], firstMatrix[i][1], firstMatrix[i][2] + secondMatrix[j][2]))
+                    i += 1
+                    j += 1
 
-# value = 2.2
-# if (int(value) == value):
-#     value = int(value)
-# print(value)
-# model = Model()
-# model.transpose([(0, 1, 5), (0, 4, 5.2), (1, 0, -7), (3, 4, 4)])
+        while (i < firstMatrix.__len__()):
+            result.append(firstMatrix[i])
+            i += 1
+
+        while (j < secondMatrix.__len__()):
+            result.append(secondMatrix[j])
+            j += 1
+
+        return result
+
+
