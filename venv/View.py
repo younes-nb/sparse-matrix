@@ -66,18 +66,28 @@ class FirstMatrixTab(QWidget):
             margin-left: 30px;
         """)
 
+        self.transposeButton = QPushButton("Transpose")
+        self.transposeButton.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.transposeButton.hide()
+        self.transposeButton.setStyleSheet("""  
+            font-size: 15px; 
+            padding: 6px; 
+            margin-left: 15px;
+        """)
+
         dimensionsBox.addWidget(matrixDimensionsLabel)
         dimensionsBox.addWidget(self.matrixRow)
         dimensionsBox.addWidget(xLabel)
         dimensionsBox.addWidget(self.matrixColumn)
         dimensionsBox.addWidget(self.showButton)
+        dimensionsBox.addWidget(self.transposeButton)
         dimensionsBox.addStretch(1)
         dimensionsBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.matrix = QTableWidget()
         self.layout.addWidget(self.matrix)
 
-    def creatTable(self, row, column, matrix):
+    def creatTable(self, row, column, matrix, items=[]):
         matrix.setRowCount(row)
         matrix.setColumnCount(column)
         matrix.setStyleSheet("font-size: 14px;")
@@ -85,6 +95,14 @@ class FirstMatrixTab(QWidget):
             for j in range(column):
                 matrix.setColumnWidth(j, 25)
                 matrix.setItem(i, j, QTableWidgetItem('0'))
+                if items != []:
+                    for k in range(len(items)):
+                        if items[k][0] == i and items[k][1] == j:
+                            value = items[k][2]
+                            if (int(value) == value):
+                                value = int(value)
+                            matrix.setItem(i, j, QTableWidgetItem(str(value)))
+
         return matrix
 
 
@@ -129,18 +147,28 @@ class SecondMatrixTab(QWidget):
             margin-left: 30px;
         """)
 
+        self.transposeButton = QPushButton("Transpose")
+        self.transposeButton.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.transposeButton.hide()
+        self.transposeButton.setStyleSheet("""  
+            font-size: 15px; 
+            padding: 6px; 
+            margin-left: 15px;
+        """)
+
         dimensionsBox.addWidget(matrixDimensionsLabel)
         dimensionsBox.addWidget(self.matrixRow)
         dimensionsBox.addWidget(xLabel)
         dimensionsBox.addWidget(self.matrixColumn)
         dimensionsBox.addWidget(self.showButton)
+        dimensionsBox.addWidget(self.transposeButton)
         dimensionsBox.addStretch(1)
         dimensionsBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.matrix = QTableWidget()
         self.layout.addWidget(self.matrix)
 
-    def creatTable(self, row, column, matrix):
+    def creatTable(self, row, column, matrix, items=[]):
         matrix.setRowCount(row)
         matrix.setColumnCount(column)
         matrix.setStyleSheet("font-size: 14px;")
@@ -148,6 +176,14 @@ class SecondMatrixTab(QWidget):
             for j in range(column):
                 matrix.setColumnWidth(j, 25)
                 matrix.setItem(i, j, QTableWidgetItem('0'))
+                if items != []:
+                    for k in range(len(items)):
+                        if items[k][0] == i and items[k][1] == j:
+                            value = items[k][2]
+                            if (int(value) == value):
+                                value = int(value)
+                            matrix.setItem(i, j, QTableWidgetItem(str(value)))
+
         return matrix
 
 
