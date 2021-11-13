@@ -78,7 +78,7 @@ class FirstMatrixTab(QWidget):
         self.errorLabel = QLabel("Something went wrong!")
         self.errorLabel.hide()
         self.errorLabel.setStyleSheet("""  
-            font-size: 14px;  
+            font-size: 15px;  
             color: red;
             margin-left: 30px;
         """)
@@ -168,7 +168,7 @@ class SecondMatrixTab(QWidget):
         self.errorLabel = QLabel("Something went wrong!")
         self.errorLabel.hide()
         self.errorLabel.setStyleSheet("""  
-            font-size: 14px;  
+            font-size: 15px;  
             color: red;
             margin-left: 30px;
         """)
@@ -240,7 +240,7 @@ class ResultMatrixTab(QWidget):
         self.errorLabel = QLabel("Something went wrong!")
         self.errorLabel.hide()
         self.errorLabel.setStyleSheet("""  
-            font-size: 14px;  
+            font-size: 15px;  
             color: red;
             margin-left: 30px;
         """)

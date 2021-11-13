@@ -16,6 +16,7 @@ class Controller:
         self.view.secondMatrixTab.transposeButton.clicked.connect(self.initSecondTransposeButton)
         self.view.resultMatrixTab.sumButton.clicked.connect(self.initSumButton)
         self.view.resultMatrixTab.subButton.clicked.connect(self.initSubButton)
+        self.view.resultMatrixTab.mulButton.clicked.connect(self.initMulButton)
 
     def initFirstShowButton(self):
         self.view.firstMatrixTab.errorLabel.hide()
@@ -34,8 +35,6 @@ class Controller:
     def initFirstTransposeButton(self):
         try:
             self.view.firstMatrixTab.errorLabel.hide()
-            self.view.firstMatrixTab.matrixRow.setValue(self.view.firstMatrixTab.matrix.columnCount())
-            self.view.firstMatrixTab.matrixColumn.setValue(self.view.firstMatrixTab.matrix.rowCount())
             sparse = self.convertToSparse(self.view.firstMatrixTab.matrix)
             if sparse == []:
                 self.view.firstMatrixTab.creatTable(self.view.firstMatrixTab.matrix.columnCount(),
@@ -46,14 +45,15 @@ class Controller:
                 self.view.firstMatrixTab.creatTable(self.view.firstMatrixTab.matrix.columnCount(),
                                                     self.view.firstMatrixTab.matrix.rowCount(),
                                                     self.view.firstMatrixTab.matrix, transposedSparse)
+
+            self.view.firstMatrixTab.matrixRow.setValue(self.view.firstMatrixTab.matrix.columnCount())
+            self.view.firstMatrixTab.matrixColumn.setValue(self.view.firstMatrixTab.matrix.rowCount())
         except:
             self.view.firstMatrixTab.errorLabel.show()
 
     def initSecondTransposeButton(self):
         try:
             self.view.secondMatrixTab.errorLabel.hide()
-            self.view.secondMatrixTab.matrixRow.setValue(self.view.secondMatrixTab.matrix.columnCount())
-            self.view.secondMatrixTab.matrixColumn.setValue(self.view.secondMatrixTab.matrix.rowCount())
             sparse = self.convertToSparse(self.view.secondMatrixTab.matrix)
             if sparse == []:
                 self.view.secondMatrixTab.creatTable(self.view.secondMatrixTab.matrix.columnCount(),
@@ -64,6 +64,9 @@ class Controller:
                 self.view.secondMatrixTab.creatTable(self.view.secondMatrixTab.matrix.columnCount(),
                                                      self.view.secondMatrixTab.matrix.rowCount(),
                                                      self.view.secondMatrixTab.matrix, transposedSparse)
+
+            self.view.secondMatrixTab.matrixRow.setValue(self.view.secondMatrixTab.matrix.columnCount())
+            self.view.secondMatrixTab.matrixColumn.setValue(self.view.secondMatrixTab.matrix.rowCount())
         except:
             self.view.secondMatrixTab.errorLabel.show()
 
@@ -98,13 +101,25 @@ class Controller:
             self.view.resultMatrixTab.errorLabel.show()
 
     def initMulButton(self):
-        pass
+        try:
+            self.view.resultMatrixTab.errorLabel.hide()
+            if self.view.firstMatrixTab.matrix.columnCount() != self.view.secondMatrixTab.matrix.rowCount():
+                raise Exception
+            multiply = self.model.multipy(self.convertToSparse(self.view.firstMatrixTab.matrix),
+                                          self.convertToSparse(self.view.secondMatrixTab.matrix))
+
+            self.view.resultMatrixTab.creatTable(self.view.firstMatrixTab.matrix.rowCount(),
+                                                 self.view.secondMatrixTab.matrix.columnCount(),
+                                                 self.view.resultMatrixTab.matrix, multiply)
+
+        except:
+            self.view.resultMatrixTab.errorLabel.show()
 
     def convertToSparse(self, matrix=QTableWidget):
         sparse = []
         for i in range(matrix.rowCount()):
             for j in range(matrix.columnCount()):
-                if (matrix.item(i, j).text() != '0'):
+                if matrix.item(i, j).text() != '0':
                     sparse.append((i, j, float(matrix.item(i, j).text())))
 
         return sparse
