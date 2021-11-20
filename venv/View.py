@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLabel, QTabWidget, QSpinBox, QTableWidget, \
-    QTableWidgetItem
+    QTableWidgetItem, QAbstractItemView
 from PyQt6.QtCore import Qt
 
 
@@ -237,6 +237,15 @@ class ResultMatrixTab(QWidget):
             margin-left: 15px;
         """)
 
+        self.sparseButton = QPushButton("Sparse")
+        self.sparseButton.setDisabled(True)
+        self.sparseButton.setCursor(Qt.CursorShape.PointingHandCursor)
+        self.sparseButton.setStyleSheet("""  
+            font-size: 15px; 
+            padding: 6px; 
+            margin-left: 15px;
+        """)
+
         self.errorLabel = QLabel("Something went wrong!")
         self.errorLabel.hide()
         self.errorLabel.setStyleSheet("""  
@@ -248,12 +257,15 @@ class ResultMatrixTab(QWidget):
         upperBox.addWidget(self.sumButton)
         upperBox.addWidget(self.subButton)
         upperBox.addWidget(self.mulButton)
+        upperBox.addWidget(self.sparseButton)
         upperBox.addWidget(self.errorLabel)
         upperBox.addStretch(1)
         upperBox.setAlignment(Qt.AlignmentFlag.AlignTop)
 
         self.matrix = QTableWidget()
         self.layout.addWidget(self.matrix)
+        self.originRow = 0
+        self.originColumn = 0
 
     def creatTable(self, row, column, matrix, items=[]):
         matrix.setRowCount(row)
@@ -272,3 +284,17 @@ class ResultMatrixTab(QWidget):
                             matrix.setItem(i, j, QTableWidgetItem(str(value)))
 
         return matrix
+
+    def createSparseTabel(self, matrix, sparse):
+        row = sparse.__len__()
+        column = 3
+        matrix.setRowCount(row)
+        matrix.setColumnCount(column)
+        matrix.setStyleSheet("font-size: 14px;")
+        for i in range(row):
+            for j in range(column):
+                matrix.setColumnWidth(j, 25)
+                if int(sparse[i][2]) == sparse[i][2]:
+                    matrix.setItem(i, j, QTableWidgetItem(str(int(sparse[i][j]))))
+                else:
+                    matrix.setItem(i, j, QTableWidgetItem(str(sparse[i][j])))

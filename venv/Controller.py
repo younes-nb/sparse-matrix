@@ -17,6 +17,7 @@ class Controller:
         self.view.resultMatrixTab.sumButton.clicked.connect(self.initSumButton)
         self.view.resultMatrixTab.subButton.clicked.connect(self.initSubButton)
         self.view.resultMatrixTab.mulButton.clicked.connect(self.initMulButton)
+        self.view.resultMatrixTab.sparseButton.clicked.connect(self.initSparseButton)
 
     def initFirstShowButton(self):
         self.view.firstMatrixTab.errorLabel.hide()
@@ -78,10 +79,13 @@ class Controller:
 
             sum = self.model.sum(self.convertToSparse(self.view.firstMatrixTab.matrix),
                                  self.convertToSparse(self.view.secondMatrixTab.matrix))
-
-            self.view.resultMatrixTab.creatTable(self.view.firstMatrixTab.matrix.rowCount(),
-                                                 self.view.firstMatrixTab.matrix.columnCount(),
+            self.view.resultMatrixTab.originRow = self.view.firstMatrixTab.matrix.rowCount()
+            self.view.resultMatrixTab.originColumn = self.view.firstMatrixTab.matrix.columnCount()
+            self.view.resultMatrixTab.creatTable(self.view.resultMatrixTab.originRow,
+                                                 self.view.resultMatrixTab.originColumn,
                                                  self.view.resultMatrixTab.matrix, sum)
+
+            self.view.resultMatrixTab.sparseButton.setEnabled(True)
         except:
             self.view.resultMatrixTab.errorLabel.show()
 
@@ -94,9 +98,13 @@ class Controller:
             subtract = self.model.subtract(self.convertToSparse(self.view.firstMatrixTab.matrix),
                                            self.convertToSparse(self.view.secondMatrixTab.matrix))
 
-            self.view.resultMatrixTab.creatTable(self.view.firstMatrixTab.matrix.rowCount(),
-                                                 self.view.firstMatrixTab.matrix.columnCount(),
+            self.view.resultMatrixTab.originRow = self.view.firstMatrixTab.matrix.rowCount()
+            self.view.resultMatrixTab.originColumn = self.view.firstMatrixTab.matrix.columnCount()
+            self.view.resultMatrixTab.creatTable(self.view.resultMatrixTab.originRow,
+                                                 self.view.resultMatrixTab.originColumn,
                                                  self.view.resultMatrixTab.matrix, subtract)
+
+            self.view.resultMatrixTab.sparseButton.setEnabled(True)
         except:
             self.view.resultMatrixTab.errorLabel.show()
 
@@ -105,12 +113,40 @@ class Controller:
             self.view.resultMatrixTab.errorLabel.hide()
             if self.view.firstMatrixTab.matrix.columnCount() != self.view.secondMatrixTab.matrix.rowCount():
                 raise Exception
-            multiply = self.model.multipy(self.convertToSparse(self.view.firstMatrixTab.matrix),
-                                          self.convertToSparse(self.view.secondMatrixTab.matrix))
+            multiply = self.model.multiply(self.convertToSparse(self.view.firstMatrixTab.matrix),
+                                           self.convertToSparse(self.view.secondMatrixTab.matrix))
 
-            self.view.resultMatrixTab.creatTable(self.view.firstMatrixTab.matrix.rowCount(),
-                                                 self.view.secondMatrixTab.matrix.columnCount(),
+            self.view.resultMatrixTab.originRow = self.view.firstMatrixTab.matrix.rowCount()
+            self.view.resultMatrixTab.originColumn = self.view.secondMatrixTab.matrix.columnCount()
+            self.view.resultMatrixTab.creatTable(self.view.resultMatrixTab.originRow,
+                                                 self.view.resultMatrixTab.originColumn,
                                                  self.view.resultMatrixTab.matrix, multiply)
+
+            self.view.resultMatrixTab.sparseButton.setEnabled(True)
+
+        except:
+            self.view.resultMatrixTab.errorLabel.show()
+
+    def initSparseButton(self):
+        try:
+            self.view.resultMatrixTab.errorLabel.hide()
+            source = self.view.sender()
+            if source.text() == "Sparse":
+                source.setText("Normal")
+                sparse = self.convertToSparse(self.view.resultMatrixTab.matrix)
+                self.view.resultMatrixTab.createSparseTabel(self.view.resultMatrixTab.matrix, sparse)
+
+            elif source.text() == "Normal":
+                source.setText("Sparse")
+                matrix = [(int(self.view.resultMatrixTab.matrix.item(i, 0).text()),
+                           int(self.view.resultMatrixTab.matrix.item(i, 1).text()),
+                           float(self.view.resultMatrixTab.matrix.item(i, 2).text()))
+                          for i in range(self.view.resultMatrixTab.originRow + 1)]
+
+                self.view.resultMatrixTab.creatTable(self.view.resultMatrixTab.originRow,
+                                                     self.view.resultMatrixTab.originColumn,
+                                                     self.view.resultMatrixTab.matrix
+                                                     , matrix)
 
         except:
             self.view.resultMatrixTab.errorLabel.show()
